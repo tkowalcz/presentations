@@ -1,19 +1,19 @@
 package pl.tkowalcz;
 
-import com.google.common.base.Function;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import rx.Observable;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 public class NameService {
 
 	private final LoadingCache<String, Observable<String>> cache;
 
-	public NameService(Function<String, Observable<String>> remoteService, int expirationTimeMinutes) {
-		Function<String, Observable<String>> pathsLoader = new Function<String, Observable<String>>() {
+	public NameService(java.util.function.Function<String, Observable<String>> remoteService, int expirationTimeMinutes) {
+		Function<String, Observable<String>> loader = new Function<String, Observable<String>>() {
 
 			@Override
 			public Observable<String> apply(String input) {
@@ -23,7 +23,10 @@ public class NameService {
 			}
 		};
 
-		cache = CacheBuilder.newBuilder().expireAfterWrite(expirationTimeMinutes, TimeUnit.MINUTES).build(CacheLoader.from(pathsLoader));
+		cache = CacheBuilder
+				.newBuilder()
+				.expireAfterWrite(expirationTimeMinutes, TimeUnit.MINUTES)
+				.build(CacheLoader.from(loader::apply));
 	}
 
 	public Observable<String> getNames(String prefix) {

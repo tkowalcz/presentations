@@ -15,16 +15,15 @@
  */
 package se.akerfeldt.signpost.retrofit;
 
+import oauth.signpost.http.HttpRequest;
+import retrofit.client.Header;
+import retrofit.client.Request;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
-import oauth.signpost.http.HttpRequest;
-
-import retrofit.client.Header;
-import retrofit.client.Request;
 
 public class HttpRequestAdapter implements HttpRequest {
 
