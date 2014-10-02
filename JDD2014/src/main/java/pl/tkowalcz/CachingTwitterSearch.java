@@ -14,10 +14,8 @@ public class CachingTwitterSearch implements ITwitterSearch {
 	private static final int CACHE_EXPIRATION_MINUTES = 10;
 
 	private final LoadingCache<String, Observable<List<TwitterUser>>> cache;
-	private final ITwitterSearch twitter;
 
 	public CachingTwitterSearch(ITwitterSearch twitter) {
-		this.twitter = twitter;
 		Function<String, Observable<List<TwitterUser>>> searcher = new Function<String, Observable<List<TwitterUser>>>() {
 
 			@Override
@@ -38,10 +36,5 @@ public class CachingTwitterSearch implements ITwitterSearch {
 	@Override
 	public Observable<List<TwitterUser>> searchUsers(String prefix) {
 		return cache.getUnchecked(prefix);
-	}
-
-	@Override
-	public void tweet(String content) {
-		twitter.tweet(content);
 	}
 }

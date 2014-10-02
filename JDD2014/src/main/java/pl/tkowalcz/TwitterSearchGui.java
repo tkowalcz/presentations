@@ -133,11 +133,6 @@ public class TwitterSearchGui extends Application {
 
 		Button tweet = new Button("Tweet");
 		tweet.setDefaultButton(true);
-		tweet.setOnAction((event) -> {
-			if (!textField.getText().isEmpty()) {
-				twitter.tweet(textField.getText());
-			}
-		});
 
 		bottom.setPadding(new Insets(10, 0, 0, 0));
 		bottom.setSpacing(10);

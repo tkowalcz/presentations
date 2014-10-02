@@ -41,18 +41,7 @@ public class RetroTwitter implements ITwitterSearch {
 			return Observable.empty();
 		}
 
-		String finalPrefix = prefix;
-		return twitterService
-				.searchForUsers(finalPrefix);
-	}
-
-	@Override
-	public void tweet(String content) {
-		twitterService.updateStatus(content);
-	}
-
-	public String requestToken() {
-		return twitterService.requestToken("http://telescopium.io");
+		return twitterService.searchForUsers(prefix);
 	}
 }
 

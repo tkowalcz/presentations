@@ -8,7 +8,7 @@ import javafx.scene.layout.HBox;
 public class TwitterUserCell extends ListCell<TwitterUserWithImage> {
 
 	private final HBox hbox = new HBox();
-	private final Label label = new Label("");
+	private final Label label = new Label();
 	private final ImageView imageView = new ImageView();
 
 	public TwitterUserCell() {
@@ -18,13 +18,14 @@ public class TwitterUserCell extends ListCell<TwitterUserWithImage> {
 	@Override
 	protected void updateItem(TwitterUserWithImage item, boolean empty) {
 		super.updateItem(item, empty);
-		setText(null);
+
 		if (item != null) {
 			label.setText(item.getTwitterUser().getName());
 
 			if (item.getImage() != null) {
 				imageView.setImage(item.getImage());
 			}
+
 			setGraphic(hbox);
 		}
 	}

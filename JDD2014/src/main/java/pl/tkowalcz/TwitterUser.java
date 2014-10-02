@@ -1,7 +1,6 @@
 package pl.tkowalcz;
 
 import com.google.gson.annotations.SerializedName;
-import twitter4j.User;
 
 public class TwitterUser {
 
@@ -33,9 +32,5 @@ public class TwitterUser {
 
 	public void setProfileImageUrl(String profileImageUrl) {
 		this.profileImageUrl = profileImageUrl;
-	}
-
-	public static TwitterUser from(User user) {
-		return new TwitterUser(user.getName(), user.getProfileImageURL());
 	}
 }

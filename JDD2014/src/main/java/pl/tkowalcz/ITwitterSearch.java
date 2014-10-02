@@ -7,6 +7,4 @@ import java.util.List;
 public interface ITwitterSearch {
 
 	Observable<List<TwitterUser>> searchUsers(String prefix);
-
-	void tweet(String content);
 }
