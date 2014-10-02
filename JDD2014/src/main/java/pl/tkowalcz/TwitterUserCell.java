@@ -2,12 +2,10 @@ package pl.tkowalcz;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import twitter4j.User;
 
-public class TwitterUserCell extends ListCell<User> {
+public class TwitterUserCell extends ListCell<TwitterUserWithImage> {
 
 	private final HBox hbox = new HBox();
 	private final Label label = new Label("");
@@ -18,12 +16,15 @@ public class TwitterUserCell extends ListCell<User> {
 	}
 
 	@Override
-	protected void updateItem(User item, boolean empty) {
+	protected void updateItem(TwitterUserWithImage item, boolean empty) {
 		super.updateItem(item, empty);
 		setText(null);
 		if (item != null) {
-			label.setText(item.getName());
-//			imageView.setImage(new Image(item.getProfileImageURL()));
+			label.setText(item.getTwitterUser().getName());
+
+			if (item.getImage() != null) {
+				imageView.setImage(item.getImage());
+			}
 			setGraphic(hbox);
 		}
 	}
