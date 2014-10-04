@@ -2,6 +2,7 @@ package pl.tkowalcz;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 
@@ -11,7 +12,7 @@ public class TwitterUserCell extends ListCell<TwitterUserWithImage> {
 	private final Label label = new Label();
 	private final ImageView imageView = new ImageView();
 
-	public TwitterUserCell() {
+	public TwitterUserCell(ListView<TwitterUserWithImage> param) {
 		hbox.getChildren().addAll(imageView, label);
 	}
 

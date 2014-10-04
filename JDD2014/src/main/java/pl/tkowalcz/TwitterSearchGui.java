@@ -13,10 +13,10 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.log4j.BasicConfigurator;
+import pl.tkowalcz.utils.WordUtils;
 import rx.Observable;
 import rx.apache.http.ObservableHttp;
 import rx.apache.http.ObservableHttpResponse;
@@ -25,8 +25,8 @@ import rx.schedulers.JavaFxScheduler;
 import java.io.ByteArrayInputStream;
 import java.util.concurrent.TimeUnit;
 
-import static rx.javafx.sources.ObservableValueSource.fromObservableValue;
-import static rx.observables.JavaFxObservable.fromNodeEvents;
+import static pl.tkowalcz.utils.FxToRx.observe;
+import static pl.tkowalcz.utils.FxToRx.observeKeyPress;
 
 public class TwitterSearchGui extends Application {
 
@@ -43,19 +43,42 @@ public class TwitterSearchGui extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		httpClient.start();
-
 		BorderPane border = new BorderPane();
 		border.setPadding(new Insets(10, 25, 10, 25));
 
-		Scene scene = new Scene(border, 500, 225);
+		HBox content = new HBox();
+		HBox bottom = new HBox();
 
-		Label remainingChars = new Label("140");
+		Scene scene = new Scene(border, 500, 225);
 
 		textField = new TextArea();
 		textField.setWrapText(true);
+		border.setCenter(textField);
 
-		fromObservableValue(textField.textProperty())
+		listView = new ListView<>();
+		listView.setCellFactory(TwitterUserCell::new);
+		content.getChildren().add(listView);
+
+		Label remainingChars = new Label("140");
+		Button tweet = new Button("Tweet");
+		tweet.setDefaultButton(true);
+
+		bottom.setPadding(new Insets(10, 0, 0, 0));
+		bottom.setSpacing(10);
+		bottom.setAlignment(Pos.BASELINE_RIGHT);
+		bottom.getChildren().addAll(remainingChars, tweet);
+		border.setBottom(bottom);
+
+		PopupControl control = new PopupControl();
+		control.getScene().setRoot(content);
+
+		primaryStage.setTitle("Compose new Tweet");
+		primaryStage.setScene(scene);
+		primaryStage.show();
+
+		httpClient.start();
+
+		observe(textField.textProperty())
 				.map((text) -> 140 - text.length())
 				.doOnNext((remaining) -> remainingChars.setText(Integer.toString(remaining)))
 				.map((remaining) -> {
@@ -69,34 +92,24 @@ public class TwitterSearchGui extends Application {
 				})
 				.subscribe(remainingChars::setTextFill);
 
-		HBox content = new HBox();
-
-		listView = new ListView<>();
-		listView.setCellFactory(param -> new TwitterUserCell());
-		content.getChildren().add(listView);
-
-		PopupControl control = new PopupControl();
-		control.getScene().setRoot(content);
-
-		Observable<KeyEvent> keyPressesFromWindow = fromNodeEvents(border, KeyEvent.KEY_PRESSED);
-		Observable<KeyEvent> keyPressesFromList = fromNodeEvents(listView, KeyEvent.KEY_PRESSED);
+		Observable<KeyEvent> keyPressesFromWindow = observeKeyPress(border);
+		Observable<KeyEvent> keyPressesFromList = observeKeyPress(listView);
 		Observable.merge(keyPressesFromWindow, keyPressesFromList)
 				.filter((KeyEvent keyEvent) -> keyEvent.getCode() == KeyCode.ESCAPE)
 				.subscribe((ignored) -> {
-					control.hide();
 					listView.getItems().clear();
+					control.hide();
 				});
 
-		HBox bottom = new HBox();
-		Observable<Number> caretPositionObservable = fromObservableValue(textField.caretPositionProperty());
+		Observable<Number> caretPositionObservable = observe(textField.caretPositionProperty());
 		caretPositionObservable
 				.map(Number::intValue)
 				.filter((position) -> position > 0)
-				.map((position) -> getWordAtIndex(textField.getText(), position))
+				.map((position) -> WordUtils.getWordAtIndex(textField.getText(), position))
 				.distinctUntilChanged()
 				.filter((word) -> word.startsWith("@") && word.length() > 3)
 				.throttleLast(250, TimeUnit.MILLISECONDS)
-				.flatMap((word) -> twitter.searchUsers(word).takeUntil(caretPositionObservable.skip(1)))
+				.flatMap((word) -> twitter.searchUsers(word).takeUntil(caretPositionObservable))
 				.flatMap((listOfUsers) ->
 								Observable.from(listOfUsers).map(TwitterUserWithImage::new).toList()
 				)
@@ -109,54 +122,27 @@ public class TwitterSearchGui extends Application {
 					listView.getItems().clear();
 					listView.getItems().addAll(users);
 
-					users.forEach(
-							(user) ->
-									ObservableHttp
-											.createGet(user.getTwitterUser().getProfileImageUrl(), httpClient)
-											.toObservable()
-											.flatMap(ObservableHttpResponse::getContent)
-											.map(ByteArrayInputStream::new)
-											.map(Image::new)
-											.observeOn(JavaFxScheduler.getInstance())
-											.subscribe((image) -> {
-												int currentIndex = listView.getItems().indexOf(user);
-												TwitterUserWithImage element = new TwitterUserWithImage(user.getTwitterUser());
-												element.setImage(image);
+					Observable.from(users)
+							.takeUntil(caretPositionObservable)
+							.subscribe(
+									(user) ->
+											ObservableHttp
+													.createGet(user.getTwitterUser().getProfileImageUrl(), httpClient)
+													.toObservable()
+													.flatMap(ObservableHttpResponse::getContent)
+													.map(ByteArrayInputStream::new)
+													.map(Image::new)
+													.observeOn(JavaFxScheduler.getInstance())
+													.takeUntil(caretPositionObservable)
+													.subscribe((image) -> {
+														int currentIndex = listView.getItems().indexOf(user);
+														if (currentIndex >= 0) {
+															TwitterUserWithImage element = new TwitterUserWithImage(user.getTwitterUser());
+															element.setImage(image);
 
-												listView.getItems().set(currentIndex, element);
-											}, Throwable::printStackTrace)
-					);
-
+															listView.getItems().set(currentIndex, element);
+														}
+													}, Throwable::printStackTrace));
 				}, Throwable::printStackTrace);
-
-		border.setCenter(textField);
-
-		Button tweet = new Button("Tweet");
-		tweet.setDefaultButton(true);
-
-		bottom.setPadding(new Insets(10, 0, 0, 0));
-		bottom.setSpacing(10);
-		bottom.setAlignment(Pos.BASELINE_RIGHT);
-		bottom.getChildren().addAll(remainingChars, tweet);
-		border.setBottom(bottom);
-
-		primaryStage.setTitle("Compose new Tweet");
-		primaryStage.setScene(scene);
-		primaryStage.show();
-	}
-
-	static String getWordAtIndex(String text, Integer position) {
-		int start = position;
-		for (; start > 0; start--) {
-			if (Character.isWhitespace(text.charAt(start - 1))) {
-				break;
-			}
-		}
-
-		if (start == position) {
-			return StringUtils.EMPTY;
-		}
-
-		return text.substring(start, position);
 	}
 }
