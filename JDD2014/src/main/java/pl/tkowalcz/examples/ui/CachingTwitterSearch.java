@@ -1,8 +1,9 @@
-package pl.tkowalcz;
+package pl.tkowalcz.examples.ui;
 
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import pl.tkowalcz.twitter.ITwitterSearch;
 import rx.Observable;
 
 import java.util.List;

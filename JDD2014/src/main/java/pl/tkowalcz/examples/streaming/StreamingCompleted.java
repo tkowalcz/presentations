@@ -1,9 +1,9 @@
-package pl.tkowalcz.streaming;
+package pl.tkowalcz.examples.streaming;
 
-import com.google.common.util.concurrent.Uninterruptibles;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import pl.tkowalcz.StreamingTwitterClient;
+import pl.tkowalcz.twitter.StreamingTwitterClient;
+import pl.tkowalcz.twitter.Tweet;
 import rx.Subscription;
 
 import java.io.IOException;
@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 public class StreamingCompleted {
 
+	@SuppressWarnings("ResultOfMethodCallIgnored")
 	public static void main(String[] args) throws IOException {
 		StreamingTwitterClient client = new StreamingTwitterClient();
 		Gson gson = new GsonBuilder().create();
@@ -23,11 +24,9 @@ public class StreamingCompleted {
 				.retry()
 				.subscribe(System.out::println, Throwable::printStackTrace);
 
-		// Then
 		System.in.read();
 
 		subscription.unsubscribe();
 		client.close();
-		Uninterruptibles.sleepUninterruptibly(1, TimeUnit.SECONDS);
 	}
 }

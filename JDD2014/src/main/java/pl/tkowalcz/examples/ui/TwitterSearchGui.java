@@ -1,4 +1,4 @@
-package pl.tkowalcz;
+package pl.tkowalcz.examples.ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.apache.log4j.BasicConfigurator;
+import pl.tkowalcz.twitter.ITwitterSearch;
+import pl.tkowalcz.twitter.RetroTwitter;
 import pl.tkowalcz.utils.WordUtils;
 import rx.Observable;
 import rx.apache.http.ObservableHttp;

@@ -1,4 +1,4 @@
-package pl.tkowalcz;
+package pl.tkowalcz.examples.ui;
 
 import com.google.gson.annotations.SerializedName;
 
