@@ -1,8 +1,11 @@
-package pl.tkowalcz;
+package pl.tkowalcz.twitter;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import pl.tkowalcz.TwitterUser;
+import pl.tkowalcz.twitter.ITwitterSearch;
+import pl.tkowalcz.twitter.RetroTwitterApi;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import rx.Observable;

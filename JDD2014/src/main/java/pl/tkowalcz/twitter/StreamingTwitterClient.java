@@ -1,4 +1,4 @@
-package pl.tkowalcz;
+package pl.tkowalcz.twitter;
 
 import com.ning.http.client.*;
 import com.ning.http.client.oauth.ConsumerKey;
@@ -7,10 +7,11 @@ import com.ning.http.client.oauth.RequestToken;
 import rx.Observable;
 import rx.Subscriber;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
-public class StreamingTwitterClient {
+public class StreamingTwitterClient implements Closeable {
 
 	private final AsyncHttpClient httpClient = new AsyncHttpClient();
 
@@ -29,6 +30,11 @@ public class StreamingTwitterClient {
 				subscriber.onError(e);
 			}
 		});
+	}
+
+	@Override
+	public void close() {
+		httpClient.close();
 	}
 
 	private static class StreamingObservableHandler implements AsyncHandler<Object> {

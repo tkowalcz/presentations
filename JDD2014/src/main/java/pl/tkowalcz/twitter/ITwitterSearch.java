@@ -1,5 +1,6 @@
-package pl.tkowalcz;
+package pl.tkowalcz.twitter;
 
+import pl.tkowalcz.TwitterUser;
 import rx.Observable;
 
 import java.util.List;
