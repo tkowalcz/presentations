@@ -1,6 +1,6 @@
 package pl.tkowalcz.twitter;
 
-import pl.tkowalcz.TwitterUser;
+import pl.tkowalcz.examples.ui.TwitterUser;
 import retrofit.http.GET;
 import retrofit.http.Headers;
 import retrofit.http.Query;

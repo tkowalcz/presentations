@@ -3,9 +3,7 @@ package pl.tkowalcz.twitter;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import pl.tkowalcz.TwitterUser;
-import pl.tkowalcz.twitter.ITwitterSearch;
-import pl.tkowalcz.twitter.RetroTwitterApi;
+import pl.tkowalcz.examples.ui.TwitterUser;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import rx.Observable;
@@ -14,6 +12,9 @@ import se.akerfeldt.signpost.retrofit.SigningOkClient;
 
 import java.util.List;
 
+/**
+ * Implementation of service
+ */
 public class RetroTwitter implements ITwitterSearch {
 
 	private final RetroTwitterApi twitterService;
