@@ -24,14 +24,6 @@
 			<version>1.8</version>
 		</dependency>
 		<dependency>
-			<groupId>com.netflix.rxjava</groupId>
-			<artifactId>javafx</artifactId>
-			<scope>system</scope>
-			<version>0.0.1</version>
-			<systemPath>C:/dev/presentations/jdd2014/lib/rxjavafx-0.0.1-dev.5+0.x-SNAPSHOT.jar</systemPath>
-		</dependency>
-
-		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 		</dependency>
