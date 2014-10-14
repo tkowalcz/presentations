@@ -12,6 +12,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
@@ -45,17 +46,18 @@ public class TwitterGui extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		BorderPane border = new BorderPane();
-		border.setPadding(new Insets(10, 25, 10, 25));
+		BorderPane mainPane = new BorderPane();
+		mainPane.setPadding(new Insets(10, 25, 10, 25));
 
 		HBox content = new HBox();
 		HBox bottom = new HBox();
 
-		Scene scene = new Scene(border, 500, 225);
+		Scene scene = new Scene(mainPane, 500, 225);
 
 		textField = new TextArea();
 		textField.setWrapText(true);
-		border.setCenter(textField);
+		textField.setFont(Font.font(24));
+		mainPane.setCenter(textField);
 
 		listView = new ListView<>();
 		listView.setCellFactory(TwitterUserCell::new);
@@ -69,7 +71,7 @@ public class TwitterGui extends Application {
 		bottom.setSpacing(10);
 		bottom.setAlignment(Pos.BASELINE_RIGHT);
 		bottom.getChildren().addAll(remainingChars, tweet);
-		border.setBottom(bottom);
+		mainPane.setBottom(bottom);
 
 		PopupControl control = new PopupControl();
 		control.getScene().setRoot(content);
@@ -84,7 +86,7 @@ public class TwitterGui extends Application {
 				.map((text) -> 140 - text.length())
 				.doOnNext((remaining) -> remainingChars.setText(Integer.toString(remaining)))
 				.map((remaining) -> {
-					if (remaining < 0) {
+					if (remaining <= 0) {
 						return Color.RED;
 					} else if (remaining < 20) {
 						return Color.YELLOW;
@@ -94,7 +96,7 @@ public class TwitterGui extends Application {
 				})
 				.subscribe(remainingChars::setTextFill);
 
-		Observable<KeyEvent> keyPressesFromWindow = observeKeyPress(border);
+		Observable<KeyEvent> keyPressesFromWindow = observeKeyPress(mainPane);
 		Observable<KeyEvent> keyPressesFromList = observeKeyPress(listView);
 		Observable.merge(keyPressesFromWindow, keyPressesFromList)
 				.filter((KeyEvent keyEvent) -> keyEvent.getCode() == KeyCode.ESCAPE)
