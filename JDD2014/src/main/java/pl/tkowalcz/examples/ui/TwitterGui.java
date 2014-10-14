@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 import static pl.tkowalcz.utils.FxToRx.observe;
 import static pl.tkowalcz.utils.FxToRx.observeKeyPress;
 
-public class TwitterSearchGui extends Application {
+public class TwitterGui extends Application {
 
 	private final ITwitterSearch twitter = new CachingTwitterSearch(new RetroTwitter());
 	private final CloseableHttpAsyncClient httpClient = HttpAsyncClients.createDefault();
