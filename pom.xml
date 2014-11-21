@@ -29,9 +29,14 @@
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
-				<groupId>com.netflix.rxjava</groupId>
-				<artifactId>rxjava-core</artifactId>
-				<version>0.20.4</version>
+				<groupId>io.netty</groupId>
+				<artifactId>netty-all</artifactId>
+				<version>4.0.21.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>io.reactivex</groupId>
+				<artifactId>rxjava</artifactId>
+				<version>1.0.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.ning</groupId>
