@@ -84,7 +84,7 @@ public class TwitterGui extends Application {
 
 		observe(textField.textProperty())
 				.map((text) -> 140 - text.length())
-				.doOnNext((remaining) -> remainingChars.setText(Integer.toString(remaining)))
+				.doOnNext((remaining) -> remainingChars.setText(remaining.toString()))
 				.map((remaining) -> {
 					if (remaining <= 0) {
 						return Color.RED;

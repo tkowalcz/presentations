@@ -16,9 +16,7 @@ public class StreamingTwitterClient implements Closeable {
 	private final AsyncHttpClient httpClient = new AsyncHttpClient();
 
 	public Observable<String> tweets() {
-		ConsumerKey consumerKey = new ConsumerKey("UXTi7xA1mxrQawuhUVRAcBsmF", "ZXAJRSEnCc6bansHVlcVHtfjnQACcdzJ6VPudroEUufGcePCtm");
-		RequestToken requestToken = new RequestToken("1295001146-W7oX12GXjQ4Ef2kRZlVvJMEf6HoP4oqak4jrc81", "7gmtXuXYavfjMvjuwnVQ71dNuFGc1dZk3hWyGSTaMDMcH");
-		OAuthSignatureCalculator calculator = new OAuthSignatureCalculator(consumerKey, requestToken);
+		OAuthSignatureCalculator calculator = getoAuthSignatureCalculator();
 
 		return Observable.create((Subscriber<? super String> subscriber) -> {
 			try {
@@ -30,6 +28,12 @@ public class StreamingTwitterClient implements Closeable {
 				subscriber.onError(e);
 			}
 		});
+	}
+
+	private OAuthSignatureCalculator getoAuthSignatureCalculator() {
+		ConsumerKey consumerKey = new ConsumerKey("UXTi7xA1mxrQawuhUVRAcBsmF", "ZXAJRSEnCc6bansHVlcVHtfjnQACcdzJ6VPudroEUufGcePCtm");
+		RequestToken requestToken = new RequestToken("1295001146-W7oX12GXjQ4Ef2kRZlVvJMEf6HoP4oqak4jrc81", "7gmtXuXYavfjMvjuwnVQ71dNuFGc1dZk3hWyGSTaMDMcH");
+		return new OAuthSignatureCalculator(consumerKey, requestToken);
 	}
 
 	@Override
