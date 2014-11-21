@@ -9,7 +9,5 @@ public class BasicsJDD {
 		String tweet3 = "{\"created_at\": \"Fri Oct 10 12:26:33 +0000 2014\", \"text\": \"Shark Facts: Statistically, you are a more likely to be killed by a statistician than by a shark\", \"user\": { \"screen_name\": \"TheTechShark\"}}";
 		String tweet4 = "{\"delete\":{\"status\":{\"id\":48223552775705600}}}";
 		String tweet5 = "{\"created_at\": \"Fri Oct 10 08:26:33 +0000 2014\", \"text\": \"Keep calm and don't block threads\", \"user\": { \"screen_name\": \"tkowalcz\", \"location\": \"JDD Conference\"}}";
-
 	}
-
 }
