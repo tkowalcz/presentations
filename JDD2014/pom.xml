@@ -19,6 +19,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.8</version>
@@ -28,9 +33,9 @@
 			<artifactId>guava</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.netflix.rxjava</groupId>
-			<artifactId>rxjava-core</artifactId>
-			<version>0.20.5</version>
+			<groupId>io.reactivex</groupId>
+			<artifactId>rxjava</artifactId>
+			<version>1.0.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jcraft</groupId>
@@ -91,10 +96,10 @@
 			<artifactId>httpclient</artifactId>
 			<version>4.3.5</version>
 		</dependency>
-		<dependency>
-			<groupId>com.netflix.rxjava</groupId>
-			<artifactId>rxjava-apache-http</artifactId>
-			<version>0.20.4</version>
-		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.netflix.rxjava</groupId>-->
+			<!--<artifactId>rxjava-apache-http</artifactId>-->
+			<!--<version>0.20.4</version>-->
+		<!--</dependency>-->
 	</dependencies>
 </project>
