@@ -27,7 +27,7 @@ public class RetroTwitter implements ITwitterSearch {
 		oAuthConsumer.setTokenWithSecret("1295001146-W7oX12GXjQ4Ef2kRZlVvJMEf6HoP4oqak4jrc81", "7gmtXuXYavfjMvjuwnVQ71dNuFGc1dZk3hWyGSTaMDMcH");
 
 		RestAdapter restAdapter = new RestAdapter.Builder()
-				.setLogLevel(RestAdapter.LogLevel.FULL)
+				.setLogLevel(RestAdapter.LogLevel.NONE)
 				.setEndpoint("https://api.twitter.com").setConverter(new GsonConverter(gson))
 				.setClient(new SigningOkClient(oAuthConsumer))
 				.build();

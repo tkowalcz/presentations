@@ -16,7 +16,7 @@
     </prerequisites>
 
     <modules>
-        <module>jdd2014</module>
+        <module>rxjava</module>
         <module>latency</module>
         <module>memory</module>
     </modules>

@@ -31,7 +31,6 @@ public class CachingTwitterSearch implements ITwitterSearch {
 				.newBuilder()
 				.expireAfterWrite(CACHE_EXPIRATION_MINUTES, TimeUnit.MINUTES)
 				.build(CacheLoader.from(searcher::apply));
-
 	}
 
 	@Override
