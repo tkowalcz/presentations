@@ -1,5 +1,8 @@
 package pl.tkowalcz.twitter;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+
 import com.ning.http.client.*;
 import com.ning.http.client.oauth.ConsumerKey;
 import com.ning.http.client.oauth.OAuthSignatureCalculator;
@@ -7,15 +10,12 @@ import com.ning.http.client.oauth.RequestToken;
 import rx.Observable;
 import rx.Subscriber;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-
 public class StreamingTwitterClient implements AutoCloseable {
 
     private final AsyncHttpClient httpClient = new AsyncHttpClient();
 
     public Observable<String> tweets() {
-        OAuthSignatureCalculator calculator = getoAuthSignatureCalculator();
+        OAuthSignatureCalculator calculator = getOAuthSignatureCalculator();
 
         return Observable.create((Subscriber<? super String> subscriber) -> {
             try {
@@ -29,7 +29,7 @@ public class StreamingTwitterClient implements AutoCloseable {
         });
     }
 
-    private OAuthSignatureCalculator getoAuthSignatureCalculator() {
+    private OAuthSignatureCalculator getOAuthSignatureCalculator() {
         ConsumerKey consumerKey = new ConsumerKey("UXTi7xA1mxrQawuhUVRAcBsmF", "ZXAJRSEnCc6bansHVlcVHtfjnQACcdzJ6VPudroEUufGcePCtm");
         RequestToken requestToken = new RequestToken("1295001146-W7oX12GXjQ4Ef2kRZlVvJMEf6HoP4oqak4jrc81", "7gmtXuXYavfjMvjuwnVQ71dNuFGc1dZk3hWyGSTaMDMcH");
         return new OAuthSignatureCalculator(consumerKey, requestToken);
