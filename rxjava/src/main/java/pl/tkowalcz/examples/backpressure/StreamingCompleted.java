@@ -1,4 +1,4 @@
-package pl.tkowalcz.examples.streaming;
+package pl.tkowalcz.examples.backpressure;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;

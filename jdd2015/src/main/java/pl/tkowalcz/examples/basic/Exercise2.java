@@ -1,12 +1,9 @@
 package pl.tkowalcz.examples.basic;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import pl.tkowalcz.twitter.Tweet;
 import rx.Observable;
 
 public class Exercise2 {
@@ -21,23 +18,7 @@ public class Exercise2 {
 
         Gson gson = new GsonBuilder().create();
 
-        Observable<String> tweets = Observable.create(subscriber -> {
-            List<String> list = Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet5);
-            for (String s : list) {
-                if (subscriber.isUnsubscribed()) {
-                    return;
-                }
-
-                subscriber.onNext(s);
-            }
-            subscriber.onCompleted();
-        });
-
-        tweets.skip(1)
-                .doOnNext(ignore -> System.out.println("Next"))
-                .take(1)
-                .map(tweet -> gson.fromJson(tweet, Tweet.class))
-                .subscribe(System.out::println);
+        Observable<String> tweets = Observable.create(null);
 
         System.in.read();
     }

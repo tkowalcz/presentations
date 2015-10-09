@@ -1,4 +1,4 @@
-package pl.tkowalcz.examples.streaming;
+package pl.tkowalcz.examples.backpressure;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

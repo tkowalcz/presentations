@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import rx.observers.TestObserver;
 import rx.subjects.*;
 
-public class Exercise7a {
+public class Exercise8a {
 
     PublishSubject<Integer> publishSubject = PublishSubject.create();
     BehaviorSubject<Integer> behaviorSubject = BehaviorSubject.create(10);

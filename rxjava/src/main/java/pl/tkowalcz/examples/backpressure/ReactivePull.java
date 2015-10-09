@@ -1,11 +1,4 @@
-package pl.tkowalcz.examples.streaming;
-
-import com.google.common.util.concurrent.Uninterruptibles;
-import com.lmax.disruptor.dsl.Disruptor;
-import rx.Observable;
-import rx.Subscriber;
-import rx.Subscription;
-import rx.schedulers.Schedulers;
+package pl.tkowalcz.examples.backpressure;
 
 import java.io.IOException;
 import java.time.LocalTime;
@@ -13,6 +6,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
+
+import com.google.common.util.concurrent.Uninterruptibles;
+import com.lmax.disruptor.dsl.Disruptor;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.schedulers.Schedulers;
 
 public class ReactivePull {
 

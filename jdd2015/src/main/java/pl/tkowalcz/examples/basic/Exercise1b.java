@@ -1,12 +1,9 @@
 package pl.tkowalcz.examples.basic;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import pl.tkowalcz.twitter.Tweet;
-import rx.Observable;
 
 public class Exercise1b {
 
@@ -18,15 +15,5 @@ public class Exercise1b {
         String tweet5 = "{\"created_at\": \"Fri Oct 10 08:26:33 +0000 2014\", \"text\": \"Keep calm and don't block threads\", \"user\": { \"screen_name\": \"tkowalcz\", \"location\": \"JDD\"}}";
 
         Gson gson = new GsonBuilder().create();
-
-        Observable<String> tweets = Observable.from(Arrays.asList(tweet1, tweet2, tweet3, tweet4, tweet5));
-        tweets
-                .skip(2)
-                .take(1)
-                .map(tweet -> gson.fromJson(tweet, Tweet.class))
-                .filter(Tweet::isValidTweet)
-                .subscribe(System.out::println);
-
-        System.in.read();
     }
 }

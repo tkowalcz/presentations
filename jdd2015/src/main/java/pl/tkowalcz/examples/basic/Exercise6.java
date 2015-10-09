@@ -1,22 +1,23 @@
 package pl.tkowalcz.examples.basic;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.List;
+import java.io.UncheckedIOException;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
+import javax.imageio.ImageIO;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
+import pl.tkowalcz.asciigen.ASCII;
 import pl.tkowalcz.twitter.RetroTwitter;
-import pl.tkowalcz.twitter.TwitterUser;
 import rx.Observable;
+import rx.apache.http.ObservableHttp;
+import rx.apache.http.ObservableHttpResponse;
 
 public class Exercise6 {
 
     private static final int CACHE_EXPIRATION_MINUTES = 10;
-
-    private final LoadingCache<String, Observable<List<TwitterUser>>> cache;
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void main(String[] args) throws IOException {
@@ -24,25 +25,35 @@ public class Exercise6 {
         System.in.read();
     }
 
-    Exercise6() {
-        RetroTwitter twitter = new RetroTwitter();
+    Exercise6() throws IOException {
+        try (CloseableHttpAsyncClient httpClient = HttpAsyncClients.createDefault()) {
+            httpClient.start();
 
-        Function<String, Observable<List<TwitterUser>>> searcher = new Function<String, Observable<List<TwitterUser>>>() {
+            RetroTwitter twitter = new RetroTwitter();
 
-            @Override
-            public Observable<List<TwitterUser>> apply(String prefix) {
-                return twitter.searchUsers(prefix)
-                        .doOnError(throwable -> cache.invalidate(prefix))
-                        .cache();
-            }
-        };
+            ASCII ascii = new ASCII();
+            Observable.from(Arrays.asList("Devoxx", "GeeCON", "JDD"))
+                    .flatMap(twitter::searchUsers)
+                    .flatMap(Observable::from)
+                    .flatMap(user -> ObservableHttp
+                            .createGet(user.getProfileImageUrl(), httpClient)
+                            .toObservable())
+                    .flatMap(ObservableHttpResponse::getContent)
+                    .map(bytes -> {
+                        try {
+                            return ImageIO.read(new ByteArrayInputStream(bytes));
+                        } catch (IOException e) {
+                            throw new UncheckedIOException(e);
+                        }
+                    })
+                    .zipWith(Observable.timer(5, 5, TimeUnit.SECONDS), (image, ignore) -> image)
+                    .map(ascii::convert)
+                    .subscribe((x) -> {
+                        System.out.println(x);
+                        System.out.println();
+                    });
 
-        cache = CacheBuilder
-                .newBuilder()
-                .expireAfterWrite(CACHE_EXPIRATION_MINUTES, TimeUnit.MINUTES)
-                .build(CacheLoader.from(searcher::apply));
-
-        Observable<List<TwitterUser>> devoxx = cache.getUnchecked("Devoxx");
-        devoxx.subscribe(System.out::println);
+            System.in.read();
+        }
     }
 }

@@ -7,7 +7,6 @@ import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
 import org.apache.http.impl.nio.client.HttpAsyncClients;
 import pl.tkowalcz.twitter.RetroTwitter;
 import rx.Observable;
-import rx.apache.http.ObservableHttp;
 
 public class Exercise4a {
 
@@ -18,16 +17,7 @@ public class Exercise4a {
 
             RetroTwitter twitter = new RetroTwitter();
 
-            Observable.from(Arrays.asList("Devoxx", "GeeCON", "JDD"))
-                    .flatMap(twitter::searchUsers)
-                    .flatMap(Observable::from)
-                    .flatMap(user -> ObservableHttp
-                            .createGet(user.getProfileImageUrl(), httpClient)
-                            .toObservable())
-                    .subscribe((x) -> {
-                        System.out.println(x);
-                        System.out.println();
-                    });
+            Observable.from(Arrays.asList("JDD", "GeeCON"));
 
             System.in.read();
         }
