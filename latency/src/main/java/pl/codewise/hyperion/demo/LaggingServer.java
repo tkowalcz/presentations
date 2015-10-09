@@ -33,7 +33,7 @@ public class LaggingServer extends Application<LaggingServerConfiguration> {
                 .onceEvery(10, TimeUnit.MINUTES);
 
         Stopper stopper = new Stopper(stopperConfiguration.build());
-        stopper.start();
+//        stopper.start();
 
         MetricRegistry metricRegistry = environment.metrics();
 

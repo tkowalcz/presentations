@@ -15,11 +15,11 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <dependency>
-            <groupId>com.netflix.archaius</groupId>
-            <artifactId>archaius-core</artifactId>
-            <version>0.6.5</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>com.netflix.archaius</groupId>-->
+            <!--<artifactId>archaius-core</artifactId>-->
+            <!--<version>0.6.5</version>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>org.hdrhistogram</groupId>

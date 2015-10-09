@@ -5,7 +5,6 @@ import com.codahale.metrics.SlidingTimeWindowReservoir;
 import com.codahale.metrics.SlidingWindowReservoir;
 import com.codahale.metrics.Timer;
 import com.codahale.metrics.annotation.Timed;
-import com.google.common.util.concurrent.Uninterruptibles;
 import org.HdrHistogram.Recorder;
 import org.apache.commons.lang3.time.StopWatch;
 import org.mpierce.metrics.reservoir.hdrhistogram.HdrHistogramResetOnSnapshotReservoir;
@@ -52,9 +51,9 @@ public class LagerResource {
         StopWatch stopWatch = new StopWatch();
         stopWatch.start();
         try {
-            stopper.pauseIfRequired();
-            Uninterruptibles.sleepUninterruptibly(random.nextInt(5), TimeUnit.MILLISECONDS);
-
+//            stopper.pauseIfRequired();
+//            Uninterruptibles.sleepUninterruptibly(random.nextInt(5), TimeUnit.MILLISECONDS);
+//
             return new Response("lag");
         } finally {
             stopWatch.stop();
