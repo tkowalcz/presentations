@@ -27,7 +27,6 @@
  * @author Tomasz Kowalczewski
  */
 
-import openjdk.java.lang.Strings;
 import org.testng.annotations.Test;
 
 import static org.testng.Assert.assertFalse;
@@ -39,7 +38,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void nonEmptyStringShouldContainEmptyCharSequence() {
         // Given
-        Strings nonemptyString = new Strings("Not empty");
+        String nonemptyString = "Not empty";
         CharSequence emptyCharSequence = new StringBuilder("");
 
         // When
@@ -52,7 +51,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void emptyStringhouldContainEmptyCharSequence() {
         // Given
-        Strings emptyString = new Strings("");
+        String emptyString = "";
         CharSequence emptyCharSequence = new StringBuilder("");
 
         // When
@@ -65,7 +64,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void emptyStringhouldNotContainNonEmptyCharSequence() {
         // Given
-        Strings emptyString = new Strings("");
+        String emptyString = "";
         CharSequence charSequence = new StringBuilder("Not empty");
 
         // When
@@ -78,7 +77,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldContainCharSequence() {
         // Given
-        Strings string = new Strings("Not an empty string");
+        String string = "Not an empty string";
         CharSequence charSequence = new StringBuilder("an empty");
 
         // When
@@ -91,7 +90,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldNotContainCharSequence() {
         // Given
-        Strings string = new Strings("Not an empty string");
+        String string = "Not an empty string";
         CharSequence charSequence = new StringBuilder("some text");
 
         // When
@@ -104,7 +103,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldFindMatchAfterSeveralPartialMatches() {
         // Given
-        Strings string = new Strings(" ABAABBABcA");
+        String string = " ABAABBABcA";
         CharSequence charSequence = new StringBuilder("ABc");
 
         // When
@@ -117,7 +116,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldSkipPartialMatchesIfNoMatchPresent() {
         // Given
-        Strings string = new Strings(" ABAABBAB");
+        String string = " ABAABBAB";
         CharSequence charSequence = new StringBuilder("ABc");
 
         // When
@@ -130,7 +129,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldHandleInputLongerThanStringItself() {
         // Given
-        Strings string = new Strings("ABc");
+        String string = "ABc";
         CharSequence charSequence = new StringBuilder("ABcc");
 
         // When
@@ -143,7 +142,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldFindSubstringAtTheEndOfTheString() {
         // Given
-        Strings string = new Strings("123ABc");
+        String string = "123ABc";
         CharSequence charSequence = new StringBuilder("ABc");
 
         // When
@@ -159,7 +158,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldFindSubstringAtTheEndOfTheStringAfterOneCharacterPartialMatch() {
         // Given
-        Strings string = new Strings("AABc");
+        String string = "AABc";
         CharSequence charSequence = new StringBuilder("ABc");
 
         // When
@@ -172,7 +171,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldFindSubstringAtTheStartOfTheString() {
         // Given
-        Strings string = new Strings("123ABc");
+        String string = "123ABc";
         CharSequence charSequence = new StringBuilder("123");
 
         // When
@@ -185,7 +184,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldFindSubstringEqualToTheString() {
         // Given
-        Strings string = new Strings("123ABc");
+        String string = "123ABc";
         CharSequence charSequence = new StringBuilder("123ABc");
 
         // When
@@ -201,7 +200,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldNotFindSubstringWithMismatchedFirstCharacterAtTheEndOfThString() {
         // Given
-        Strings string = new Strings("123ABc");
+        String string = "123ABc";
         CharSequence charSequence = new StringBuilder("cBc");
 
         // When
@@ -214,7 +213,7 @@ public class StringContainsCharSequenceTest {
     @Test
     public void shouldHandleStringArgumentCorrectly() {
         // Given
-        Strings string = new Strings("Not an empty string");
+        String string = "Not an empty string";
         CharSequence charSequence = "an empty";
 
         // When

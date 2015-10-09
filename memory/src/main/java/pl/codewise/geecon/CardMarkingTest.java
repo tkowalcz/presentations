@@ -3,11 +3,12 @@ package pl.codewise.geecon;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+DoEscapeAnalysis -XX:+UseCondCardMark -XX:PrintFLSStatistics=2 -XX:+PrintGCApplicationStoppedTime -XX:PrintSafepointStatisticsCount=1 -XX:+PrintSafepointStatistics -XX:+PrintGCTaskTimeStamps
 public class CardMarkingTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CardMarkingTest.class);
 
-    public static Object[][] objects;
+        public static Object[][] objects;
 
     public static void main(String[] args) {
         objects = new Object[1024 * 1024][];
